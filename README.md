@@ -22,6 +22,12 @@ Refs #CDP-123
 ### Golang
 This package requires the Go programming language extension for language support. It also requires you to have golang installed on your machine. To install, follow these instructions
 
+## Installation
+
+```bash
+$ go install -v github.com/joselitofilho/go-conventional-commits/cmd/go-conventional-commits@latest
+```
+
 ## Usage
 ```bash
 usage: print [-h|--help] [--coverageCmd "<value>"] [-l|--latestVersion
