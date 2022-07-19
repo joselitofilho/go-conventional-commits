@@ -40,3 +40,19 @@ Refs #GCC-123
 	convetionalCommit := transformers.TransformConventionalCommit(message)
 	require.Equal(t, []string{"Refs #GCC-123"}, convetionalCommit.Footer)
 }
+
+func TestTransforms_ConventionalCommit_WithBody(t *testing.T) {
+	message := `feat: added a new feature
+
+Description of the new feature
+more details
+
+Refs #GCC-123
+`
+
+	convetionalCommit := transformers.TransformConventionalCommit(message)
+
+	expected := `Description of the new feature
+more details`
+	require.Equal(t, expected, convetionalCommit.Body)
+}
