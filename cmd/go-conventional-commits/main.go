@@ -62,7 +62,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	changeLogs := transformers.TransformChangeLogs(buildMessages(commits), *projectLink)
+	changeLogs := transformers.TransformChangeLogs(transformers.TransformMessages(commits), *projectLink)
 
 	codeCoverageValue := buildCoverageValue(*repoPath, *coverageCmd)
 
@@ -77,17 +77,6 @@ func main() {
 
 	fmt.Println("Output:")
 	fmt.Println(changeLog)
-}
-
-func buildMessages(commits []*gitlog.Commit) []string {
-	messages := make([]string, 0, len(commits))
-
-	for _, commit := range commits {
-		message := commit.Subject + "\n\n" + commit.Body
-		messages = append(messages, message)
-	}
-
-	return messages
 }
 
 func buildChangeLog(changeLogs changelogs.ChangeLogs, newVersion, codeCoverageValue string) (changeLog string) {

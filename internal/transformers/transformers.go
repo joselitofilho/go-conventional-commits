@@ -8,6 +8,7 @@ import (
 	"github.com/joselitofilho/go-conventional-commits/internal/changelogs"
 	"github.com/joselitofilho/go-conventional-commits/internal/common"
 	"github.com/joselitofilho/go-conventional-commits/internal/conventionalcommits"
+	"github.com/tsuyoshiwada/go-gitlog"
 )
 
 var (
@@ -167,6 +168,18 @@ func TransformChangeLogs(messages []string, projectLink string) changelogs.Chang
 	}
 
 	return parsedChangelogs
+}
+
+// TransformChangeLog takes a commits message and parses it into a slice of string
+func TransformMessages(commits []*gitlog.Commit) []string {
+	messages := make([]string, 0, len(commits))
+
+	for _, commit := range commits {
+		message := commit.Subject + "\n\n" + commit.Body
+		messages = append(messages, message)
+	}
+
+	return messages
 }
 
 func regExMapper(match []string, expectedFormatRegex *regexp.Regexp, result map[string]string) {
