@@ -107,6 +107,7 @@ func TransformConventionalCommits(messages []string) (commits conventionalcommit
 	return
 }
 
+// TransformChangeLog takes a commits message and parses it into change log blocks
 func TransformChangeLog(message string, projectLink string) *changelogs.ChangeLog {
 	commit := TransformConventionalCommit(message)
 
