@@ -79,6 +79,7 @@ func main() {
 	fmt.Println(changeLog)
 }
 
+// TODO: Move to other package
 func buildChangeLog(changeLogs changelogs.ChangeLogs, newVersion, codeCoverageValue string) (changeLog string) {
 	changeLog = fmt.Sprintf("## Release %s", newVersion)
 	changeLog += changeLogs.String()
@@ -86,6 +87,7 @@ func buildChangeLog(changeLogs changelogs.ChangeLogs, newVersion, codeCoverageVa
 	return
 }
 
+// TODO: Move to other package
 func buildCoverageValue(repoPath, coverageCmd string) string {
 	codeCoverageValue := "<put the value here>%"
 
@@ -110,6 +112,7 @@ func buildCoverageValue(repoPath, coverageCmd string) string {
 	return codeCoverageValue
 }
 
+// TODO: Move to other package
 func updateChangelogFile(changeLog, repoPath string) {
 	changeLogLines := strings.Split(changeLog, "\n")
 
