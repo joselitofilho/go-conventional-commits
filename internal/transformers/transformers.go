@@ -104,15 +104,26 @@ func TransformConventionalCommits(messages []string) (commits conventionalcommit
 	for _, message := range messages {
 		commits = append(commits, TransformConventionalCommit(message))
 	}
-
 	return
 }
 
-func TransformChangeLog(message string, projectLink string) (changeLog *changelogs.ChangeLog) {
+func TransformChangeLog(message string, projectLink string) *changelogs.ChangeLog {
 	commit := TransformConventionalCommit(message)
 
-	if len(commit.Footer) > 0 && strings.Contains(commit.Footer[0], "Refs #") {
-		key := strings.Split(commit.Footer[0], "Refs #")[1]
+	footerRefs := ""
+	footerTitle := ""
+
+	for _, footer := range commit.Footer {
+		if strings.Contains(footer, "Refs #") {
+			footerRefs = footer
+		}
+		if strings.Contains(footer, "Title: ") {
+			footerTitle = footer
+		}
+	}
+
+	if footerRefs != "" {
+		key := strings.ReplaceAll(footerRefs, "Refs #", "")
 
 		link := key
 		if projectLink != "" {
@@ -120,28 +131,28 @@ func TransformChangeLog(message string, projectLink string) (changeLog *changelo
 		}
 
 		subject := "<put the task title here>"
-		if commit.Body != "" {
-			subject = commit.Body
+		if footerTitle != "" {
+			subject = strings.ReplaceAll(footerTitle, "Title: ", "")
 		}
 
 		if strings.Contains(commit.Category, "fix") {
 			return &changelogs.ChangeLog{
 				Category: common.Fixes,
 				Refs:     key,
-				Subject:  subject,
+				Title:    subject,
 				Link:     link,
 			}
 		} else {
 			return &changelogs.ChangeLog{
 				Category: common.Features,
 				Refs:     key,
-				Subject:  subject,
+				Title:    subject,
 				Link:     link,
 			}
 		}
 	}
 
-	return
+	return nil
 }
 
 func TransformChangeLogs(messages []string, projectLink string) changelogs.ChangeLogs {

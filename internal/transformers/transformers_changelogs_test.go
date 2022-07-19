@@ -31,7 +31,7 @@ Refs #GCC-123
 	expected := &changelogs.ChangeLog{
 		Category: "Features",
 		Refs:     "GCC-123",
-		Subject:  "<put the task title here>",
+		Title:    "<put the task title here>",
 		Link:     "[GCC-123](https://myproject.application.com/board/GCC-123)",
 	}
 	require.Equal(t, expected, changeLog)
@@ -49,7 +49,7 @@ Refs #GCC-321
 	expected := &changelogs.ChangeLog{
 		Category: "Fixes",
 		Refs:     "GCC-321",
-		Subject:  "<put the task title here>",
+		Title:    "<put the task title here>",
 		Link:     "[GCC-321](https://myproject.application.com/board/GCC-321)",
 	}
 	require.Equal(t, expected, changeLog)
@@ -61,6 +61,7 @@ func TestTransforms_ChangeLog_WithSubject(t *testing.T) {
 Description of the new feature
 more details
 
+Title: Amazing new feature
 Refs #GCC-123
 `
 	projectLink := "https://myproject.application.com/board/"
@@ -70,7 +71,7 @@ Refs #GCC-123
 	expected := &changelogs.ChangeLog{
 		Category: "Features",
 		Refs:     "GCC-123",
-		Subject:  "Description of the new feature\nmore details",
+		Title:    "Amazing new feature",
 		Link:     "[GCC-123](https://myproject.application.com/board/GCC-123)",
 	}
 	require.Equal(t, expected, changeLog)
@@ -82,6 +83,7 @@ func TestTransforms_ChangeLogs(t *testing.T) {
 Description of the new feature
 more details
 
+Title: Amazing new feature
 Refs #GCC-123
 `,
 		`fix: fixed the problem
@@ -89,6 +91,7 @@ Refs #GCC-123
 Description of the fix
 more details
 
+Title: Fix the problem
 Refs #GCC-321`,
 	}
 	projectLink := "https://myproject.application.com/board/"
@@ -99,13 +102,13 @@ Refs #GCC-321`,
 		"GCC-123": &changelogs.ChangeLog{
 			Category: "Features",
 			Refs:     "GCC-123",
-			Subject:  "Description of the new feature\nmore details",
+			Title:    "Amazing new feature",
 			Link:     "[GCC-123](https://myproject.application.com/board/GCC-123)",
 		},
 		"GCC-321": &changelogs.ChangeLog{
 			Category: "Fixes",
 			Refs:     "GCC-321",
-			Subject:  "Description of the fix\nmore details",
+			Title:    "Fix the problem",
 			Link:     "[GCC-321](https://myproject.application.com/board/GCC-321)",
 		},
 	}

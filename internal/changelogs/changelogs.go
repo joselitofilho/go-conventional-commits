@@ -14,7 +14,7 @@ type ChangeLogs map[string]*ChangeLog
 type ChangeLog struct {
 	Category string `json:"category"`
 	Refs     string `json:"refs"`
-	Subject  string `json:"subject"`
+	Title    string `json:"title"`
 	Link     string `json:"link"`
 }
 
@@ -38,7 +38,7 @@ func (clogs ChangeLogs) String() (message string) {
 			return fxs[i].Refs < fxs[j].Refs
 		})
 		for i := range fxs {
-			message += fmt.Sprintf("%s: %s\n", fxs[i].Link, fxs[i].Subject)
+			message += fmt.Sprintf("%s: %s\n", fxs[i].Link, fxs[i].Title)
 		}
 	}
 
@@ -48,7 +48,7 @@ func (clogs ChangeLogs) String() (message string) {
 			return fts[i].Refs < fts[j].Refs
 		})
 		for i := range fts {
-			message += fmt.Sprintf("%s: %s\n", fts[i].Link, fts[i].Subject)
+			message += fmt.Sprintf("%s: %s\n", fts[i].Link, fts[i].Title)
 		}
 	}
 
