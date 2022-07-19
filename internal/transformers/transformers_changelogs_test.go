@@ -75,3 +75,48 @@ Refs #GCC-123
 	}
 	require.Equal(t, expected, changeLog)
 }
+
+func TestTransforms_ChangeLogs(t *testing.T) {
+	messages := []string{`feat: added a new feature
+
+Description of the new feature
+more details
+
+Refs #GCC-123
+`,
+		`fix: fixed the problem
+
+Description of the fix
+more details
+
+Refs #GCC-321`,
+	}
+	projectLink := "https://myproject.application.com/board/"
+
+	changeLogs := transformers.TransformChangeLogs(messages, projectLink)
+
+	expected := changelogs.ChangeLogs{
+		"GCC-123": &changelogs.ChangeLog{
+			Category: "Features",
+			Refs:     "GCC-123",
+			Subject:  "Description of the new feature\nmore details",
+			Link:     "[GCC-123](https://myproject.application.com/board/GCC-123)",
+		},
+		"GCC-321": &changelogs.ChangeLog{
+			Category: "Fixes",
+			Refs:     "GCC-321",
+			Subject:  "Description of the fix\nmore details",
+			Link:     "[GCC-321](https://myproject.application.com/board/GCC-321)",
+		},
+	}
+	require.Equal(t, expected, changeLogs)
+}
+
+func TestTransforms_ChangeLogs_WithoutRefs(t *testing.T) {
+	messages := []string{`feat: added a new feature`, `fix: fixed the problem`}
+	projectLink := "https://myproject.application.com/board/"
+
+	changeLogs := transformers.TransformChangeLogs(messages, projectLink)
+
+	require.Empty(t, changeLogs)
+}

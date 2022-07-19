@@ -144,6 +144,19 @@ func TransformChangeLog(message string, projectLink string) (changeLog *changelo
 	return
 }
 
+func TransformChangeLogs(messages []string, projectLink string) changelogs.ChangeLogs {
+	parsedChangelogs := changelogs.ChangeLogs{}
+
+	for _, message := range messages {
+		changeLog := TransformChangeLog(message, projectLink)
+		if changeLog != nil {
+			parsedChangelogs[changeLog.Refs] = changeLog
+		}
+	}
+
+	return parsedChangelogs
+}
+
 func regExMapper(match []string, expectedFormatRegex *regexp.Regexp, result map[string]string) {
 	for i, name := range expectedFormatRegex.SubexpNames() {
 		if i != 0 && name != "" {
