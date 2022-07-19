@@ -20,6 +20,11 @@ import (
 func main() {
 	parser := argparse.NewParser("print", "Prints provided string to stdout")
 
+	coverageCmd := parser.String("", "coverageCmd", &argparse.Options{
+		Required: false,
+		Default:  "",
+		Help:     "Specify your code coverage command to get the value",
+	})
 	latestVersion := parser.String("l", "latestVersion", &argparse.Options{
 		Required: false,
 		Default:  "",
@@ -28,6 +33,11 @@ func main() {
 	newVersion := parser.String("n", "newVersion", &argparse.Options{
 		Required: true,
 		Help:     "The name of the git tag with new version. For example: v0.1.2",
+	})
+	projectLink := parser.String("", "projectLink", &argparse.Options{
+		Required: false,
+		Default:  "",
+		Help:     "The base project link that we will concatenate the task ID. For example: https://myproject.application.com/board/",
 	})
 	repoPath := parser.String("p", "path", &argparse.Options{
 		Required: false,
@@ -38,16 +48,6 @@ func main() {
 		Required: false,
 		Default:  false,
 		Help:     "If this flag is true the changelog file will be updated",
-	})
-	projectLink := parser.String("", "projectLink", &argparse.Options{
-		Required: false,
-		Default:  "",
-		Help:     "The base project link that we will concatenate the task ID. For example: https://myproject.application.com/board/",
-	})
-	coverageCmd := parser.String("", "coverageCmd", &argparse.Options{
-		Required: false,
-		Default:  "",
-		Help:     "Specify your code coverage command to get the value",
 	})
 
 	if err := parser.Parse(os.Args); err != nil {

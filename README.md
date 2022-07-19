@@ -22,6 +22,31 @@ Refs #CDP-123
 ### Golang
 This package requires the Go programming language extension for language support. It also requires you to have golang installed on your machine. To install, follow these instructions
 
+## Usage
+```bash
+usage: print [-h|--help] [--coverageCmd "<value>"] [-l|--latestVersion
+             "<value>"] -n|--newVersion "<value>" [--projectLink "<value>"]
+             [-p|--path "<value>"] [-u|--updateChangelog]
+
+             Prints provided string to stdout
+
+Arguments:
+
+  -h  --help             Print help information
+      --coverageCmd      Specify your code coverage command to get the value.
+                         Default: 
+  -l  --latestVersion    The name of the git tag with the latest version. For
+                         example: v1.2.3. Default: 
+  -n  --newVersion       The name of the git tag with new version. For example:
+                         v0.1.2
+      --projectLink      The base project link that we will concatenate the
+                         task ID. For example:
+                         https://myproject.application.com/board/. Default: 
+  -p  --path             The repository path. Default: .
+  -u  --updateChangelog  If this flag is true the changelog file will be
+                         updated. Default: false
+```
+
 ## Features
 
 ### Generate a change log message
