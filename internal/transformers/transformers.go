@@ -119,16 +119,23 @@ func TransformChangeLog(message string, projectLink string) (changeLog *changelo
 			link = fmt.Sprintf("[%s](%s%s)", key, projectLink, key)
 		}
 
+		subject := "<put the task title here>"
+		if commit.Body != "" {
+			subject = commit.Body
+		}
+
 		if strings.Contains(commit.Category, "fix") {
 			return &changelogs.ChangeLog{
 				Category: common.Fixes,
 				Refs:     key,
+				Subject:  subject,
 				Link:     link,
 			}
 		} else {
 			return &changelogs.ChangeLog{
 				Category: common.Features,
 				Refs:     key,
+				Subject:  subject,
 				Link:     link,
 			}
 		}

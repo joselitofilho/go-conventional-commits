@@ -3,7 +3,6 @@ package changelogs
 import (
 	"fmt"
 	"sort"
-	"strings"
 
 	"github.com/joselitofilho/go-conventional-commits/internal/common"
 )
@@ -15,31 +14,42 @@ type ChangeLogs map[string]*ChangeLog
 type ChangeLog struct {
 	Category string `json:"category"`
 	Refs     string `json:"refs"`
+	Subject  string `json:"subject"`
 	Link     string `json:"link"`
 }
 
 func (clogs ChangeLogs) String() (message string) {
-	fxs := make([]string, 0, len(clogs))
-	fts := make([]string, 0, len(clogs))
+	fxs := make([]*ChangeLog, 0, len(clogs))
+	fts := make([]*ChangeLog, 0, len(clogs))
 	for i := range clogs {
 		cl := clogs[i]
 
 		switch cl.Category {
 		case common.Fixes:
-			fxs = append(fxs, cl.Link)
+			fxs = append(fxs, cl)
 		case common.Features:
-			fts = append(fts, cl.Link)
+			fts = append(fts, cl)
 		}
 	}
 
 	if len(fxs) > 0 {
-		sort.Strings(fxs)
-		message += fmt.Sprintf("\n\n### Fixes\n%s: <put the task title here>", strings.Join(fxs, ": <put the task title here>\n"))
+		message += fmt.Sprintf("\n\n### %s\n", common.Fixes)
+		sort.Slice(fxs, func(i, j int) bool {
+			return fxs[i].Refs < fxs[j].Refs
+		})
+		for i := range fxs {
+			message += fmt.Sprintf("%s: %s\n", fxs[i].Link, fxs[i].Subject)
+		}
 	}
 
 	if len(fts) > 0 {
-		sort.Strings(fts)
-		message += fmt.Sprintf("\n\n### Features\n%s: <put the task title here>", strings.Join(fts, ": <put the task title here>\n"))
+		message += fmt.Sprintf("\n\n### %s\n", common.Features)
+		sort.Slice(fts, func(i, j int) bool {
+			return fts[i].Refs < fts[j].Refs
+		})
+		for i := range fts {
+			message += fmt.Sprintf("%s: %s\n", fts[i].Link, fts[i].Subject)
+		}
 	}
 
 	return
