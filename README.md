@@ -1,6 +1,21 @@
 # GoConventionalCommits
 
-This is a tool to parser your git commit messages into a change log message base on [Conventional Commits](https://www.conventionalcommits.org/) specification.
+This is a tool to parser your git commit messages into a change log message base on [Conventional Commits](#conventional-commits) specification.
+
+## Conventional Commits
+
+We are following the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) specification for adding human and machine readable meaning to commit messages. You can see the full specificantion [here](https://www.conventionalcommits.org/en/v1.0.0/#specification).
+
+If you are using VSCode, you can follow [this](https://pawelgrzybek.com/multi-paragraph-git-commit-messages-cli-and-visual-studio-code/) to set up your environment.
+
+Commit message example:
+```
+feat: Super cool new feature
+
+Body (optional)
+
+Refs #CDP-123
+```
 
 ## Requirements
 
