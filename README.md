@@ -59,7 +59,7 @@ Arguments:
 
 For example:
 ```bash
-$./go-conventional-commits --latestVersion v0.1.2 --newVersion v1.0.0 --path $HOME/dev/myProject --projectLink https://myproject.domain.com/tasks/
+$ go-conventional-commits --latestVersion v0.1.2 --newVersion v1.0.0 --path $HOME/dev/myProject --projectLink https://myproject.domain.com/tasks/
 ```
 
 Output:
@@ -79,7 +79,7 @@ Code coverage: <put the value here>%
 
 For example:
 ```bash
-$./go-conventional-commits --latestVersion v0.1.2 --newVersion v1.0.0 --path $HOME/dev/myProject --projectLink https://myproject.domain.com/tasks/ --coverageCmd "make coverage"
+$ go-conventional-commits --latestVersion v0.1.2 --newVersion v1.0.0 --path $HOME/dev/myProject --projectLink https://myproject.domain.com/tasks/ --coverageCmd "make coverage"
 ```
 
 Output:
@@ -99,7 +99,7 @@ Code coverage: 99.9%
 
 For example:
 ```bash
-$./go-conventional-commits --latestVersion v0.1.2 --newVersion v1.0.0 --path $HOME/dev/myProject --projectLink https://myproject.domain.com/tasks/ --coverageCmd "make coverage" --updateChangelog
+$ go-conventional-commits --latestVersion v0.1.2 --newVersion v1.0.0 --path $HOME/dev/myProject --projectLink https://myproject.domain.com/tasks/ --coverageCmd "make coverage" --updateChangelog
 ```
 
 Output:
