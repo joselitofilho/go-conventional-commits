@@ -1,4 +1,4 @@
-# GoConventionalCommits
+# go-conventional-commits
 
 This is a tool to parser your git commit messages into a change log message base on [Conventional Commits](#conventional-commits) specification.
 
