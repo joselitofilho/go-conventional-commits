@@ -15,7 +15,6 @@ var (
 		"style",
 		"bug",
 		"test",
-		"chore",
 	}
 
 	// MinorCategories is the list of categories used to determine if this commit is a minor bump or not
