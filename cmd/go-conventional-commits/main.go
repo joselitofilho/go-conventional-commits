@@ -41,7 +41,7 @@ func main() {
 	projectLink := parser.String("", "projectLink", &argparse.Options{
 		Required: false,
 		Default:  "",
-		Help:     "The base project link that we will concatenate the task ID. For example: https://myproject.atlassian.net/browse/",
+		Help:     "The base project link that we will concatenate the task ID. For example: https://myproject.application.com/board/",
 	})
 	coverageCmd := parser.String("", "coverageCmd", &argparse.Options{
 		Required: false,
@@ -74,7 +74,7 @@ func main() {
 		updateChangelogFile(changeLog, *repoPath)
 	}
 
-	fmt.Println("Output:", changeLog)
+	fmt.Println("Output:\n", changeLog)
 }
 
 func extractData(commits []*gitlog.Commit, projectLink string) changelogs.ChangeLogs {
@@ -82,9 +82,8 @@ func extractData(commits []*gitlog.Commit, projectLink string) changelogs.Change
 
 	for i := range commits {
 		commit := commits[i]
-		conventionalCommit := transformers.TransformConventionalCommit(commit.Subject + "\n\n" + commit.Body)
-
-		changeLog := transformers.TransformChangeLog(conventionalCommit, projectLink)
+		message := commit.Subject + "\n\n" + commit.Body
+		changeLog := transformers.TransformChangeLog(message, projectLink)
 		parsedChangelogs[changeLog.Refs] = changeLog
 	}
 

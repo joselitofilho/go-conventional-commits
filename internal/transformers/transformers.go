@@ -108,8 +108,10 @@ func TransformConventionalCommits(messages []string) (commits conventionalcommit
 	return
 }
 
-func TransformChangeLog(commit *conventionalcommits.ConventionalCommit, projectLink string) (changeLog *changelogs.ChangeLog) {
-	if strings.Contains(commit.Footer[0], "Refs #") {
+func TransformChangeLog(message string, projectLink string) (changeLog *changelogs.ChangeLog) {
+	commit := TransformConventionalCommit(message)
+
+	if len(commit.Footer) > 0 && strings.Contains(commit.Footer[0], "Refs #") {
 		key := strings.Split(commit.Footer[0], "Refs #")[1]
 
 		link := key
