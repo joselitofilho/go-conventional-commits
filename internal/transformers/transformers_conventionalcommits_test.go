@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	"github.com/joselitofilho/go-conventional-commits/internal/conventionalcommits"
 	"github.com/joselitofilho/go-conventional-commits/internal/transformers"
 )
 
@@ -55,4 +56,26 @@ Refs #GCC-123
 	expected := `Description of the new feature
 more details`
 	require.Equal(t, expected, convetionalCommit.Body)
+}
+
+func TestTransforms_ConventionalCommits(t *testing.T) {
+	messages := []string{`feat: added a new feature
+
+Description of the new feature
+more details
+
+Refs #GCC-123
+`,
+	}
+
+	commits := transformers.TransformConventionalCommits(messages)
+
+	expected := conventionalcommits.ConventionalCommits{{
+		Category:    "feat",
+		Description: "added a new feature",
+		Body:        "Description of the new feature\nmore details",
+		Footer:      []string{"Refs #GCC-123"},
+		Minor:       true,
+	}}
+	require.Equal(t, expected, commits)
 }
