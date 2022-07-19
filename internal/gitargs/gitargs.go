@@ -9,5 +9,9 @@ type GitLogArgs struct {
 
 // Args return a list of git log command arguments to get logs from the latest version
 func (a *GitLogArgs) Args() []string {
-	return []string{"-s", fmt.Sprintf("%s..HEAD", a.LatestVersion)}
+	args := []string{"-s"}
+	if a.LatestVersion != "" {
+		args = append(args, fmt.Sprintf("%s..HEAD", a.LatestVersion))
+	}
+	return args
 }

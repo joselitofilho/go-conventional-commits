@@ -21,7 +21,8 @@ func main() {
 	parser := argparse.NewParser("print", "Prints provided string to stdout")
 
 	latestVersion := parser.String("l", "latestVersion", &argparse.Options{
-		Required: true,
+		Required: false,
+		Default:  "",
 		Help:     "The name of the git tag with the latest version. For example: v1.2.3",
 	})
 	newVersion := parser.String("n", "newVersion", &argparse.Options{
