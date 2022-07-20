@@ -55,7 +55,7 @@ Refs #GCC-321
 	require.Equal(t, expected, changeLog)
 }
 
-func TestTransforms_ChangeLog_WithSubject(t *testing.T) {
+func TestTransforms_ChangeLog_WithTitle(t *testing.T) {
 	message := `feat: added a new feature
 
 Description of the new feature
