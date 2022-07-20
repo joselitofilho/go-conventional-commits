@@ -37,7 +37,7 @@ func main() {
 	projectLink := parser.String("", "projectLink", &argparse.Options{
 		Required: false,
 		Default:  "",
-		Help:     "The base project link that we will concatenate the task ID. For example: https://myproject.application.com/board/",
+		Help:     "The base project link that we will concatenate the task ID. For example: https://myproject.domain.com/board/",
 	})
 	repoPath := parser.String("p", "path", &argparse.Options{
 		Required: false,

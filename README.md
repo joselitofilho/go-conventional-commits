@@ -47,7 +47,7 @@ Arguments:
                          v0.1.2
       --projectLink      The base project link that we will concatenate the
                          task ID. For example:
-                         https://myproject.application.com/board/. Default: 
+                         https://myproject.domain.com/board/. Default: 
   -p  --path             The repository path. Default: .
   -u  --updateChangelog  If this flag is true the changelog file will be
                          updated. Default: false

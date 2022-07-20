@@ -112,43 +112,39 @@ func TransformConventionalCommits(messages []string) (commits conventionalcommit
 func TransformChangeLog(message string, projectLink string) *changelogs.ChangeLog {
 	commit := TransformConventionalCommit(message)
 
-	footerRefs := ""
+	ref := ""
 	footerTitle := ""
 
 	for _, footer := range commit.Footer {
-		if strings.Contains(footer, "Refs #") {
-			footerRefs = footer
-		}
+		ref = footerByKey(footer, "Refs")
 		if strings.Contains(footer, "Title: ") {
 			footerTitle = footer
 		}
 	}
 
-	if footerRefs != "" {
-		key := strings.ReplaceAll(footerRefs, "Refs #", "")
-
-		link := key
+	if ref != "" {
+		link := ref
 		if projectLink != "" {
-			link = fmt.Sprintf("[%s](%s%s)", key, projectLink, key)
+			link = fmt.Sprintf("[%s](%s%s)", ref, projectLink, ref)
 		}
 
-		subject := "<put the task title here>"
+		title := "<put the task title here>"
 		if footerTitle != "" {
-			subject = strings.ReplaceAll(footerTitle, "Title: ", "")
+			title = strings.ReplaceAll(footerTitle, "Title: ", "")
 		}
 
 		if strings.Contains(commit.Category, "fix") {
 			return &changelogs.ChangeLog{
 				Category: common.Fixes,
-				Refs:     key,
-				Title:    subject,
+				Refs:     ref,
+				Title:    title,
 				Link:     link,
 			}
 		} else {
 			return &changelogs.ChangeLog{
 				Category: common.Features,
-				Refs:     key,
-				Title:    subject,
+				Refs:     ref,
+				Title:    title,
 				Link:     link,
 			}
 		}
@@ -188,4 +184,16 @@ func regExMapper(match []string, expectedFormatRegex *regexp.Regexp, result map[
 			result[name] = strings.TrimSpace(match[i])
 		}
 	}
+}
+
+// TODO: Move to other package.
+func footerByKey(footer, key string) string {
+	result := ""
+	if strings.Contains(footer, fmt.Sprintf("%s #", key)) {
+		result = strings.ReplaceAll(footer, "Refs #", "")
+	}
+	if strings.Contains(footer, fmt.Sprintf("%s: ", key)) {
+		result = strings.ReplaceAll(footer, "Refs: ", "")
+	}
+	return result
 }
