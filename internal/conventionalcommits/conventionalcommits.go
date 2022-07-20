@@ -5,6 +5,10 @@ import (
 	"fmt"
 )
 
+var (
+	Marshal = json.Marshal
+)
+
 // ConventionalCommits a slice of parsed conventional commit messages
 type ConventionalCommits []*ConventionalCommit
 
@@ -21,7 +25,7 @@ type ConventionalCommit struct {
 }
 
 func (cc *ConventionalCommit) String() string {
-	data, err := json.Marshal(cc)
+	data, err := Marshal(cc)
 	if err != nil {
 		return fmt.Sprintf("%v", err)
 	}
