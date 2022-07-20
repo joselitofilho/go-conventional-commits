@@ -116,9 +116,14 @@ func TransformChangeLog(message string, projectLink string) *changelogs.ChangeLo
 	footerTitle := ""
 
 	for _, footer := range commit.Footer {
-		ref = footerByKey(footer, "Refs")
-		if strings.Contains(footer, "Title: ") {
-			footerTitle = footer
+		fr := footerByKey(footer, "Refs")
+		if fr != "" {
+			ref = fr
+		}
+
+		ft := footerByKey(footer, "Title")
+		if ft != "" {
+			footerTitle = ft
 		}
 	}
 
@@ -130,7 +135,7 @@ func TransformChangeLog(message string, projectLink string) *changelogs.ChangeLo
 
 		title := "<put the task title here>"
 		if footerTitle != "" {
-			title = strings.ReplaceAll(footerTitle, "Title: ", "")
+			title = footerTitle
 		}
 
 		if strings.Contains(commit.Category, "fix") {
@@ -190,10 +195,10 @@ func regExMapper(match []string, expectedFormatRegex *regexp.Regexp, result map[
 func footerByKey(footer, key string) string {
 	result := ""
 	if strings.Contains(footer, fmt.Sprintf("%s #", key)) {
-		result = strings.ReplaceAll(footer, "Refs #", "")
+		result = strings.ReplaceAll(footer, fmt.Sprintf("%s #", key), "")
 	}
 	if strings.Contains(footer, fmt.Sprintf("%s: ", key)) {
-		result = strings.ReplaceAll(footer, "Refs: ", "")
+		result = strings.ReplaceAll(footer, fmt.Sprintf("%s: ", key), "")
 	}
 	return result
 }

@@ -56,25 +56,50 @@ Refs #GCC-321
 }
 
 func TestTransforms_ChangeLog_WithTitle(t *testing.T) {
-	message := `feat: added a new feature
+	tests := []struct {
+		name    string
+		message string
+	}{
+		{
+			name: "Title:",
+			message: `feat: added a new feature
 
 Description of the new feature
 more details
 
 Title: Amazing new feature
 Refs #GCC-123
-`
+`,
+		},
+		{
+			name: "Title #",
+			message: `feat: added a new feature
+
+Description of the new feature
+more details
+
+Title #Amazing new feature
+Refs #GCC-123
+`,
+		},
+	}
+
 	projectLink := "https://myproject.domain.com/board/"
-
-	changeLog := transformers.TransformChangeLog(message, projectLink)
-
 	expected := &changelogs.ChangeLog{
 		Category: "Features",
 		Refs:     "GCC-123",
 		Title:    "Amazing new feature",
 		Link:     "[GCC-123](https://myproject.domain.com/board/GCC-123)",
 	}
-	require.Equal(t, expected, changeLog)
+
+	for i := range tests {
+		tc := tests[i]
+
+		t.Run(tc.name, func(t *testing.T) {
+			changeLog := transformers.TransformChangeLog(tc.message, projectLink)
+			require.Equal(t, expected, changeLog)
+		})
+	}
 }
 
 func TestTransforms_ChangeLog_WithRefs(t *testing.T) {
