@@ -111,8 +111,8 @@ func TestTransforms_ChangeLog_WithRefs(t *testing.T) {
 			name: "Refs:",
 			message: `feat: added a new feature
 
-		Refs: GCC-123
-		`,
+Refs: GCC-123
+`,
 		},
 		{
 			name: "Refs #",

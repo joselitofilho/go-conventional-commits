@@ -5,9 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/stretchr/testify/require"
-
 	"github.com/joselitofilho/go-conventional-commits/internal/conventionalcommits"
+	"github.com/stretchr/testify/require"
 )
 
 func TestConventionalCommit_String(t *testing.T) {
