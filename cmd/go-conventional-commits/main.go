@@ -61,7 +61,7 @@ func main() {
 
 	// Running git command to get logs
 	git := gitlog.New(&gitlog.Config{Path: *repoPath})
-	commits, err := git.Log(&gitargs.GitLogArgs{LatestVersion: *latestVersion}, nil)
+	commits, err := git.Log(gitargs.NewGitLogArgs(*latestVersion, *newVersion), nil)
 	if err != nil {
 		log.Fatalln(err)
 	}

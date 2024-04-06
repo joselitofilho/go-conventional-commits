@@ -9,19 +9,28 @@ import (
 
 func TestArgs(t *testing.T) {
 	tests := []struct {
-		name          string
-		latestVersion string
-		expected      []string
+		name           string
+		latestVersion  string
+		currentVersion string
+		expected       []string
 	}{
 		{
-			name:          "with latest version",
-			latestVersion: "v0.1.2",
-			expected:      []string{"-s", "v0.1.2..HEAD"},
+			name:           "with latest version",
+			latestVersion:  "v0.1.2",
+			currentVersion: "",
+			expected:       []string{"-s", "v0.1.2..HEAD"},
 		},
 		{
-			name:          "without latest version",
-			latestVersion: "",
-			expected:      []string{"-s"},
+			name:           "with latest and current versions",
+			latestVersion:  "v0.1.2",
+			currentVersion: "v0.2.0",
+			expected:       []string{"-s", "v0.1.2..v0.2.0"},
+		},
+		{
+			name:           "without latest version",
+			latestVersion:  "",
+			currentVersion: "",
+			expected:       []string{"-s"},
 		},
 	}
 
@@ -29,7 +38,7 @@ func TestArgs(t *testing.T) {
 		tc := tests[i]
 
 		t.Run(tc.name, func(t *testing.T) {
-			logArgs := gitargs.GitLogArgs{LatestVersion: tc.latestVersion}
+			logArgs := gitargs.NewGitLogArgs(tc.latestVersion, tc.currentVersion)
 			actual := logArgs.Args()
 			require.Equal(t, tc.expected, actual)
 		})
