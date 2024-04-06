@@ -32,7 +32,8 @@ $ go install -v github.com/joselitofilho/go-conventional-commits/cmd/go-conventi
 ```bash
 usage: print [-h|--help] [--coverageCmd "<value>"] [-l|--latestVersion
              "<value>"] -n|--newVersion "<value>" [--projectLink "<value>"]
-             [-p|--path "<value>"] [-u|--updateChangelog]
+             [--commitsURL "<value>"] [-p|--path "<value>"]
+             [-u|--updateChangelog]
 
              Prints provided string to stdout
 
@@ -48,6 +49,9 @@ Arguments:
       --projectLink      The base project link that we will concatenate the
                          task ID. For example:
                          https://myproject.domain.com/board/. Default: 
+      --commitsURL       The base commit URL that we will concatenate the
+                         commit hash. For example:
+                         https://github.com/user/project/commit/. Default: 
   -p  --path             The repository path. Default: .
   -u  --updateChangelog  If this flag is true the changelog file will be
                          updated. Default: false
