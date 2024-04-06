@@ -96,7 +96,7 @@ func buildCoverageValue(repoPath, coverageCmd string) string {
 
 		coverageCmdSlice := strings.Split(coverageCmd, " ")
 
-		cmd := exec.Command(coverageCmdSlice[0], coverageCmdSlice[0:]...)
+		cmd := exec.Command(coverageCmdSlice[0], coverageCmdSlice[1:]...)
 		cmd.Dir = repoPath
 		out, err := cmd.Output()
 		if err != nil {
