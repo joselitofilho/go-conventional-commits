@@ -3,6 +3,7 @@ package common
 const (
 	Features = "Features"
 	Fixes    = "Fixes"
+	Changes  = "Other Changes"
 )
 
 var (

@@ -148,17 +148,17 @@ func TransformChangeLog(message, projectLink string) *changelogs.ChangeLog {
 		title = footerTitle
 	}
 
-	if strings.Contains(commit.Category, "fix") {
-		return &changelogs.ChangeLog{
-			Category: common.Fixes,
-			Refs:     ref,
-			Title:    title,
-			Link:     link,
-		}
+	category := common.Changes
+
+	switch {
+	case strings.Contains(commit.Category, "fix"):
+		category = common.Fixes
+	case strings.Contains(commit.Category, "feat"):
+		category = common.Features
 	}
 
 	return &changelogs.ChangeLog{
-		Category: common.Features,
+		Category: category,
 		Refs:     ref,
 		Title:    title,
 		Link:     link,
