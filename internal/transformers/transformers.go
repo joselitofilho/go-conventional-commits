@@ -112,8 +112,10 @@ func TransformConventionalCommits(messages []string) (commits conventionalcommit
 func TransformChangeLog(message, projectLink string) *changelogs.ChangeLog {
 	commit := TransformConventionalCommit(message)
 
+	desc := commit.Description
 	ref := ""
 	footerTitle := ""
+	link := ""
 
 	for _, footer := range commit.Footer {
 		fr := footerByKey(footer, "Refs")
@@ -127,35 +129,40 @@ func TransformChangeLog(message, projectLink string) *changelogs.ChangeLog {
 		}
 	}
 
-	if ref != "" {
-		link := ref
+	if ref == "" {
+		descParts := strings.Split(desc, " #")
+		desc = descParts[0]
+
+		if len(descParts) > 1 {
+			ref = "#" + descParts[1]
+		}
+	} else {
+		link = ref
 		if projectLink != "" {
 			link = fmt.Sprintf("[%s](%s%s)", ref, projectLink, ref)
 		}
+	}
 
-		title := "<put the task title here>"
-		if footerTitle != "" {
-			title = footerTitle
-		}
+	title := desc
+	if footerTitle != "" {
+		title = footerTitle
+	}
 
-		if strings.Contains(commit.Category, "fix") {
-			return &changelogs.ChangeLog{
-				Category: common.Fixes,
-				Refs:     ref,
-				Title:    title,
-				Link:     link,
-			}
-		} else {
-			return &changelogs.ChangeLog{
-				Category: common.Features,
-				Refs:     ref,
-				Title:    title,
-				Link:     link,
-			}
+	if strings.Contains(commit.Category, "fix") {
+		return &changelogs.ChangeLog{
+			Category: common.Fixes,
+			Refs:     ref,
+			Title:    title,
+			Link:     link,
 		}
 	}
 
-	return nil
+	return &changelogs.ChangeLog{
+		Category: common.Features,
+		Refs:     ref,
+		Title:    title,
+		Link:     link,
+	}
 }
 
 func TransformChangeLogs(messages []string, projectLink string) changelogs.ChangeLogs {
@@ -176,7 +183,12 @@ func TransformMessages(commits []*gitlog.Commit) []string {
 	messages := make([]string, 0, len(commits))
 
 	for _, commit := range commits {
-		message := commit.Subject + "\n\n" + commit.Body
+		hash := ""
+		if commit.Hash != nil && len(commit.Hash.Short) > 0 {
+			hash = " #" + commit.Hash.Short
+		}
+
+		message := commit.Subject + hash + "\n\n" + commit.Body
 		messages = append(messages, message)
 	}
 

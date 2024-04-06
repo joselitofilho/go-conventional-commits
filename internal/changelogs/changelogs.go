@@ -38,7 +38,12 @@ func (clogs ChangeLogs) String() (message string) {
 			return fxs[i].Refs < fxs[j].Refs
 		})
 		for i := range fxs {
-			message += fmt.Sprintf("%s: %s\n", fxs[i].Link, fxs[i].Title)
+			link := fxs[i].Link
+			if link == "" {
+				message += fmt.Sprintf("- %s %s\n", fxs[i].Title, fxs[i].Refs)
+			} else {
+				message += fmt.Sprintf("%s: %s\n", fxs[i].Link, fxs[i].Title)
+			}
 		}
 	}
 
@@ -48,7 +53,12 @@ func (clogs ChangeLogs) String() (message string) {
 			return fts[i].Refs < fts[j].Refs
 		})
 		for i := range fts {
-			message += fmt.Sprintf("%s: %s\n", fts[i].Link, fts[i].Title)
+			link := fts[i].Link
+			if link == "" {
+				message += fmt.Sprintf("- %s %s\n", fts[i].Title, fts[i].Refs)
+			} else {
+				message += fmt.Sprintf("%s: %s\n", fts[i].Link, fts[i].Title)
+			}
 		}
 	}
 

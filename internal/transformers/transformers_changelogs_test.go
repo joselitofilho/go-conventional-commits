@@ -15,7 +15,13 @@ func TestTransforms_ChangeLog_WithSimpleMessage(t *testing.T) {
 
 	changeLog := transformers.TransformChangeLog(message, projectLink)
 
-	require.Nil(t, changeLog)
+	expected := &changelogs.ChangeLog{
+		Category: "Features",
+		Refs:     "",
+		Title:    "added a new feature",
+		Link:     "",
+	}
+	require.Equal(t, expected, changeLog)
 }
 
 func TestTransforms_ChangeLog_WithFeatures(t *testing.T) {
@@ -30,7 +36,7 @@ Refs #GCC-123
 	expected := &changelogs.ChangeLog{
 		Category: "Features",
 		Refs:     "GCC-123",
-		Title:    "<put the task title here>",
+		Title:    "added a new feature",
 		Link:     "[GCC-123](https://myproject.domain.com/board/GCC-123)",
 	}
 	require.Equal(t, expected, changeLog)
@@ -48,7 +54,7 @@ Refs #GCC-321
 	expected := &changelogs.ChangeLog{
 		Category: "Fixes",
 		Refs:     "GCC-321",
-		Title:    "<put the task title here>",
+		Title:    "fixed the problem",
 		Link:     "[GCC-321](https://myproject.domain.com/board/GCC-321)",
 	}
 	require.Equal(t, expected, changeLog)
@@ -126,7 +132,7 @@ Refs #GCC-123
 	expected := &changelogs.ChangeLog{
 		Category: "Features",
 		Refs:     "GCC-123",
-		Title:    "<put the task title here>",
+		Title:    "added a new feature",
 		Link:     "[GCC-123](https://myproject.domain.com/board/GCC-123)",
 	}
 
@@ -152,7 +158,7 @@ refs #GCC-123
 	expected := &changelogs.ChangeLog{
 		Category: "Features",
 		Refs:     "GCC-123",
-		Title:    "<put the task title here>",
+		Title:    "added a new feature",
 		Link:     "[GCC-123](https://myproject.domain.com/board/GCC-123)",
 	}
 	require.Equal(t, expected, changeLog)
@@ -197,10 +203,24 @@ Refs #GCC-321`,
 }
 
 func TestTransforms_ChangeLogs_WithoutRefs(t *testing.T) {
-	messages := []string{`feat: added a new feature`, `fix: fixed the problem`}
+	messages := []string{`feat: added a new feature #f4f7dec`, `fix: fixed the problem #f5f7dec`}
 	projectLink := "https://myproject.domain.com/board/"
 
 	changeLogs := transformers.TransformChangeLogs(messages, projectLink)
 
-	require.Empty(t, changeLogs)
+	expected := changelogs.ChangeLogs{
+		"#f4f7dec": &changelogs.ChangeLog{
+			Category: "Features",
+			Refs:     "#f4f7dec",
+			Title:    "added a new feature",
+			Link:     "",
+		},
+		"#f5f7dec": &changelogs.ChangeLog{
+			Category: "Fixes",
+			Refs:     "#f5f7dec",
+			Title:    "fixed the problem",
+			Link:     "",
+		},
+	}
+	require.Equal(t, expected, changeLogs)
 }
