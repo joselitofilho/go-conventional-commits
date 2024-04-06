@@ -39,6 +39,11 @@ func main() {
 		Default:  "",
 		Help:     "The base project link that we will concatenate the task ID. For example: https://myproject.domain.com/board/",
 	})
+	commitsURL := parser.String("", "commitsURL", &argparse.Options{
+		Required: false,
+		Default:  "",
+		Help:     "The base commit URL that we will concatenate the commit hash. For example: https://github.com/user/project/commit/",
+	})
 	repoPath := parser.String("p", "path", &argparse.Options{
 		Required: false,
 		Default:  ".",
@@ -62,7 +67,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	changeLogs := transformers.TransformChangeLogs(transformers.TransformMessages(commits), *projectLink)
+	changeLogs := transformers.TransformChangeLogs(transformers.TransformMessages(commits, *commitsURL), *projectLink)
 
 	codeCoverageValue := buildCoverageValue(*repoPath, *coverageCmd)
 

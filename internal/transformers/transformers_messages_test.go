@@ -18,6 +18,6 @@ func TestTransforms_Messages(t *testing.T) {
 		Subject: "feat: added a new feature",
 		Body:    "Refs #GCC-123",
 	}}
-	messages := transformers.TransformMessages(commits)
-	require.Equal(t, []string{"feat: added a new feature #f4f7dec\n\nRefs #GCC-123"}, messages)
+	messages := transformers.TransformMessages(commits, "https://url/commits/")
+	require.Equal(t, []string{"feat: added a new feature #https://url/commits/f4f7dec\n\nRefs #GCC-123"}, messages)
 }

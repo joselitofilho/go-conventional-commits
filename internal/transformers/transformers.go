@@ -179,13 +179,13 @@ func TransformChangeLogs(messages []string, projectLink string) changelogs.Chang
 }
 
 // TransformChangeLog takes a commits message and parses it into a slice of string
-func TransformMessages(commits []*gitlog.Commit) []string {
+func TransformMessages(commits []*gitlog.Commit, commitsURL string) []string {
 	messages := make([]string, 0, len(commits))
 
 	for _, commit := range commits {
 		hash := ""
 		if commit.Hash != nil && len(commit.Hash.Short) > 0 {
-			hash = " #" + commit.Hash.Short
+			hash = " #" + commitsURL + commit.Hash.Short
 		}
 
 		message := commit.Subject + hash + "\n\n" + commit.Body
