@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -125,7 +124,7 @@ func updateChangelogFile(changeLog, repoPath string) {
 
 	changeLogFile := fmt.Sprintf("%s/changelog.md", repoPath)
 
-	input, err := ioutil.ReadFile(changeLogFile)
+	input, err := os.ReadFile(changeLogFile)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -138,7 +137,7 @@ func updateChangelogFile(changeLog, repoPath string) {
 	newLines = append(newLines, lines[2:]...)
 
 	output := strings.Join(newLines, "\n")
-	err = ioutil.WriteFile(changeLogFile, []byte(output), 0644)
+	err = os.WriteFile(changeLogFile, []byte(output), 0644)
 	if err != nil {
 		log.Fatalln(err)
 	}
