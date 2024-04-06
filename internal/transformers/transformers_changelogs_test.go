@@ -15,8 +15,7 @@ func TestTransforms_ChangeLog_WithSimpleMessage(t *testing.T) {
 
 	changeLog := transformers.TransformChangeLog(message, projectLink)
 
-	var expected *changelogs.ChangeLog
-	require.Equal(t, expected, changeLog)
+	require.Nil(t, changeLog)
 }
 
 func TestTransforms_ChangeLog_WithFeatures(t *testing.T) {
@@ -139,6 +138,24 @@ Refs #GCC-123
 			require.Equal(t, expected, changeLog)
 		})
 	}
+}
+
+func TestTransforms_ChangeLog_WithRefsLowerCase(t *testing.T) {
+	message := `feat: added a new feature
+
+refs #GCC-123
+`
+	projectLink := "https://myproject.domain.com/board/"
+
+	changeLog := transformers.TransformChangeLog(message, projectLink)
+
+	expected := &changelogs.ChangeLog{
+		Category: "Features",
+		Refs:     "GCC-123",
+		Title:    "<put the task title here>",
+		Link:     "[GCC-123](https://myproject.domain.com/board/GCC-123)",
+	}
+	require.Equal(t, expected, changeLog)
 }
 
 func TestTransforms_ChangeLogs(t *testing.T) {

@@ -109,7 +109,7 @@ func TransformConventionalCommits(messages []string) (commits conventionalcommit
 }
 
 // TransformChangeLog takes a commits message and parses it into change log blocks
-func TransformChangeLog(message string, projectLink string) *changelogs.ChangeLog {
+func TransformChangeLog(message, projectLink string) *changelogs.ChangeLog {
 	commit := TransformConventionalCommit(message)
 
 	ref := ""
@@ -194,11 +194,13 @@ func regExMapper(match []string, expectedFormatRegex *regexp.Regexp, result map[
 // TODO: Move to other package.
 func footerByKey(footer, key string) string {
 	result := ""
-	if strings.Contains(footer, fmt.Sprintf("%s #", key)) {
-		result = strings.ReplaceAll(footer, fmt.Sprintf("%s #", key), "")
+	footerLower := strings.ToLower(footer)
+	keyLower := strings.ToLower(key)
+	if strings.Contains(footerLower, fmt.Sprintf("%s #", keyLower)) {
+		result = strings.Split(footer, "#")[1]
 	}
-	if strings.Contains(footer, fmt.Sprintf("%s: ", key)) {
-		result = strings.ReplaceAll(footer, fmt.Sprintf("%s: ", key), "")
+	if strings.Contains(footerLower, fmt.Sprintf("%s: ", keyLower)) {
+		result = strings.Split(footer, ": ")[1]
 	}
 	return result
 }
